@@ -45,7 +45,6 @@ suspend fun getNews(count: Int = 100): List<News> {
     } finally {
         client.close()
     }
-    return emptyList()
 }
 
 fun List<News>.getMostRatedNews(count: Int, period: ClosedRange<LocalDate>): List<News> {
@@ -80,4 +79,3 @@ fun saveNews(path: String, news: Collection<News>) {
         out.close()
     }
 }
-

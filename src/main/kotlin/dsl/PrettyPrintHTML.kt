@@ -54,7 +54,7 @@ abstract class Tag(val name: String) : Element {
         return builder.toString()
     }
 }
-
+// Для одинарного тега <meta ... >
 @HtmlTagMarker
 abstract class TagOnce(val name: String) : Element {
     val children = arrayListOf<Element>()
@@ -104,10 +104,6 @@ abstract class TagWithTextOnce(name: String) : TagOnce(name) {
 private val logger = LoggerFactory.getLogger(HTML::class.java)
 
 class HTML : TagWithText("html") {
-    fun head(init: Head.() -> Unit) = initTag(Head(), init)
-
-    fun body(init: Body.() -> Unit) = initTag(Body(), init)
-
     override fun toString(): String {
         val builder = StringBuilder()
         render(builder, "")

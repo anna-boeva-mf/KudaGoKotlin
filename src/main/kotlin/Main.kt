@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 
 
 fun main() = runBlocking {
-    var lDT = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
+    val lDT = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
     val news = getNews(100)
     saveNews("out/news_$lDT.csv", news)
 
@@ -25,4 +25,3 @@ fun main() = runBlocking {
     }
     saveToFileAll(output1, "out/prettyPrintNewsAll_$lDT.html")
 }
-
