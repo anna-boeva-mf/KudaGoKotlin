@@ -10,12 +10,13 @@ import java.time.format.DateTimeFormatter
 
 
 fun main() = runBlocking {
+    val client = NewsClient()
     val lDT = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
-    val news = getNews(100)
-    saveNews("out/news_$lDT.csv", news)
+    val news = client.getNews(100)
+    client.saveNews("out/news_$lDT.csv", news)
 
     val mostRatedNews = news.getMostRatedNews(5, LocalDate.now().minusDays(5)..LocalDate.now())
-    saveNews("out/mostRatedNews_$lDT.csv", mostRatedNews)
+    client.saveNews("out/mostRatedNews_$lDT.csv", mostRatedNews)
 
     val output = newsHTML(mostRatedNews.get(2)) { //одна новость
     }

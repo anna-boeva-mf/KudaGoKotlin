@@ -54,6 +54,7 @@ abstract class Tag(val name: String) : Element {
         return builder.toString()
     }
 }
+
 // Для одинарного тега <meta ... >
 @HtmlTagMarker
 abstract class TagOnce(val name: String) : Element {
@@ -129,6 +130,7 @@ abstract class BodyTag(name: String) : TagWithText(name) {
         val a = initTag(A(), init)
         a.href = href
     }
+
     fun ul(init: UL.() -> Unit) = initTag(UL(), init)
 }
 
@@ -195,10 +197,12 @@ class NewsHTML(val news: News) : TagWithText("html") {
 
     fun saveToFile(fileName: String, charset: Charset = Charsets.UTF_8) {
         logger.info("Сохраняем новости в файл по указанному пути: $fileName")
-        try {
-            File(fileName).writeText(toString(), charset)
-        } catch (e: IOException) {
-            logger.error("Error writing to file: ${e.message}")
+        File(fileName).bufferedWriter(charset).use { writer ->
+            try {
+                writer.write(toString())
+            } catch (e: IOException) {
+                logger.error("Error writing to file: ${e.message}")
+            }
         }
     }
 }
@@ -223,9 +227,11 @@ fun saveToFileAll(listNewsHTML: List<NewsHTML>, fileName: String, charset: Chars
     logger.info("Сохраняем новости в файл по указанному пути: $fileName")
     val separator = ""
     val str = listNewsHTML.joinToString(separator)
-    try {
-        File(fileName).writeText(str, charset)
-    } catch (e: IOException) {
-        logger.error("Error writing to file: ${e.message}")
+    File(fileName).bufferedWriter(charset).use { writer ->
+        try {
+            writer.write(str)
+        } catch (e: IOException) {
+            logger.error("Error writing to file: ${e.message}")
+        }
     }
 }
